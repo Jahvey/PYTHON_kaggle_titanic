@@ -7,6 +7,7 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import LabelEncoder
 import sklearn.preprocessing as preprocessing
 import numpy as np
+from sklearn.ensemble import BaggingRegressor
 
 from sklearn.ensemble import RandomForestRegressor
 
@@ -286,8 +287,10 @@ X = train_np[:, 1:]
 
 # fit到RandomForestRegressor之中
 clf = linear_model.LogisticRegression(C=1.0, penalty='l1', tol=1e-6)
-clf.fit(X, y)
-predictions = clf.predict(test_df)
+bagging_clf = BaggingRegressor(clf, n_estimators=20, max_samples=0.8, max_features=1.0, bootstrap=True, bootstrap_features=False, n_jobs=-1)
+# clf.fit(X, y)
+bagging_clf.fit(X,y)
+predictions = bagging_clf.predict(test_df)
 result = pd.DataFrame({'PassengerId':data_test['PassengerId'].as_matrix(), 'Survived':predictions.astype(np.int32)})
 result.to_csv("d:\\TDDOWNLOAD\\ML\\titanic\\officialData\\logistic_regression_predictions.csv", index=False)
 
@@ -295,18 +298,18 @@ print list(train_df.columns)
 print pd.DataFrame({"columns":list(train_df.columns)[1:], "coef":list(clf.coef_.T)})
 
 #判断是否过拟合
-data_x=X
-data_y=y
-train_sizes,train_loss,test_loss=learning_curve(clf,data_x,data_y,train_sizes=np.linspace(0.05,1,20))
-
-train_loss_mean=np.mean(train_loss,axis=1)
-test_loss_mean=np.mean(test_loss,axis=1)
-
-plt.plot(train_sizes,train_loss_mean,'o-',color='r',label='train_loss_mean')
-plt.plot(train_sizes,test_loss_mean,'o-',color='g',label='test_loss_mean')
-plt.xlabel('train_sizes')
-plt.ylabel('loss')
-plt.show()
+# data_x=X
+# data_y=y
+# train_sizes,train_loss,test_loss=learning_curve(clf,data_x,data_y,train_sizes=np.linspace(0.05,1,20))
+#
+# train_loss_mean=np.mean(train_loss,axis=1)
+# test_loss_mean=np.mean(test_loss,axis=1)
+#
+# plt.plot(train_sizes,train_loss_mean,'o-',color='r',label='train_loss_mean')
+# plt.plot(train_sizes,test_loss_mean,'o-',color='g',label='test_loss_mean')
+# plt.xlabel('train_sizes')
+# plt.ylabel('loss')
+# plt.show()
 
 
 
