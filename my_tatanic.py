@@ -265,9 +265,9 @@ columns=['Embarked','Sex','Pclass','Cabin']
 data_train,data_test=columns_dummies(data_train,data_test,columns)
 data_train=data_train.drop(['Ticket','Name'],axis=1)
 data_test=data_test.drop(['Ticket','Name'],axis=1)
-print data_train.head()
-print data_test.head()
-
+# print data_train.head()
+# print data_test.head()
+#
 
 
 from sklearn import linear_model
@@ -275,6 +275,7 @@ from sklearn import linear_model
 # 用正则取出我们要的属性值
 train_df = data_train.filter(regex='Survived|Cabin_*|Age|SibSp|Parch|Fare_.*|Embarked_.*|Sex_.*|Pclass_.*')
 test_df = data_test.filter(regex='Cabin_*|Age|SibSp|Parch|Fare_.*|Embarked_.*|Sex_.*|Pclass_.*')
+print train_df.head()
 train_np = train_df.as_matrix()
 test_np=test_df.as_matrix()
 print 'train_df.columns()',train_df.columns
