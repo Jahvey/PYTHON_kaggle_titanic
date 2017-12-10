@@ -27,6 +27,7 @@ from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, Gradien
 from sklearn.naive_bayes import GaussianNB
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis, QuadraticDiscriminantAnalysis
 from sklearn.linear_model import LogisticRegression
+from sklearn.cross_validation import KFold
 get_ipython().magic(u'matplotlib inline')
 
 class FeatureEngineerTools:
@@ -35,7 +36,7 @@ class FeatureEngineerTools:
     机器学习过程，特征工程步骤需要使用的常用分析工具的整理打包。
 
     Attribute
-    
+    f
     Function
     show_contin_columns:连续取值数据的观察（绘图）.
     show_corr_int_label:观察data数据columns各维度和label字段的相关度
@@ -299,7 +300,7 @@ class FeatureEngineerTools:
         value_counts = {}
         for label_value in value_set:
             value_counts.update(
-                {'label_' + str(label_value): data[data_train[label] == label_value][column].value_counts()})
+                {'label_' + str(label_value): data[data[label] == label_value][column].value_counts()})
         df = pd.DataFrame(value_counts)
         df=df.sort_index(axis=0, by=None, ascending=True)
         df.plot(kind='bar', stacked=True)
